@@ -248,6 +248,19 @@ By = By + BSL(Y4, Iy, ROI);
 B = Byz + By + Bz;
 %--------------------------------------------------------------------------
 
-PrintFieldCube(lx, ly, lz, nx, ny, nz, centerROI, B(:,3)*1000, level, plane, lx, ly, lz, centerROI, "Полученное поле", "Полученное поле, мТ");
+[XX, YY, BB] = PrintFieldCubeReturn(lx, ly, lz, nx, ny, nz, centerROI, B(:,3)*1000, level, plane, lx, ly, lz, centerROI, "Полученное поле", "Полученное поле, мТ");
+
+[px,py] = gradient(BB*1000);
+p1 = sqrt(px.^2+py.^2);
+p = max(p1,[],'all');
+px = px/p;
+py = py/p;
+
+figure('Name', "Градиент", 'NumberTitle','off')
+contourf(XX,YY,p1,20)
+colorbar
+axis('equal')
+box("on")
+grid("on") 
 
 toc
